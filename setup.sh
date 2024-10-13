@@ -3,6 +3,9 @@
 # Set the GitHub repository URL for the master branch
 REPO_URL="https://github.com/concernedrat/dotfiles/archive/refs/heads/master.zip"
 
+# Setup TPM for tmux
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 # Create a temporary directory to download and extract the zip file
 TEMP_DIR=$(mktemp -d)
 curl -L "$REPO_URL" -o "$TEMP_DIR/dotfiles.zip"
@@ -36,6 +39,16 @@ fi
 
 # Create a symlink from ~/.config/zsh/.zshrc to ~/.zshrc
 ln -s "$HOME/.config/zsh/.zshrc" "$HOME/.zshrc"
+
+# Install vim-plug for Neovim if it’s not already installed
+if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
+    echo "Installing vim-plug for Neovim..."
+    curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# Run PlugInstall to install all plugins specified in init.vim or init.lua
+nvim --headless +PlugInstall +qall
 
 # Clean up the temporary directory
 rm -rf "$TEMP_DIR"
