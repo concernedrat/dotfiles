@@ -63,8 +63,27 @@ local dap = require('dap')
 local dapui = require("dapui")
 dapui.setup({})
 
+
+local function open_browser(url)
+    local open_cmd
+
+    if vim.fn.has("macunix") == 1 then
+        open_cmd = { "open", url }  -- macOS
+    elseif vim.fn.has("unix") == 1 then
+        open_cmd = { "xdg-open", url }  -- Linux
+    elseif vim.fn.has("win32") == 1 then
+        open_cmd = { "cmd.exe", "/C", "start", url }  -- Windows
+    else
+        print("Unsupported OS for browser launch")
+        return
+    end
+
+    -- Use jobstart to run in the background with detach mode
+    vim.fn.jobstart(open_cmd, { detach = true })
+end
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
+  open_browser("http://localhost:5086")
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()
   dapui.close()
@@ -72,8 +91,6 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
-
-local dap = require("dap")
 local lspconfig_util = require("lspconfig.util")
 
 -- Helper function to get the root directory
