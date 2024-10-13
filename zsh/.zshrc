@@ -1,5 +1,7 @@
 # Dotnet tools
 export PATH="$PATH:$HOME/.dotnet/tools"
+export PATH=$PATH:/usr/local/bin/netcoredbg
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
