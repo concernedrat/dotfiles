@@ -1,0 +1,7 @@
+*
+# Track specific folders
+!/nvim
+!/alacritty
+!/tmux
+!/zsh
+!/.gitignore
