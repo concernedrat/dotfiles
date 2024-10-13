@@ -50,6 +50,9 @@ fi
 # Run PlugInstall to install all plugins specified in init.vim or init.lua
 nvim --headless +PlugInstall +qall
 
+# RUn LspInstall to install all language servers
+nvim --headless +LspInstall +qall
+
 # Clean up the temporary directory
 rm -rf "$TEMP_DIR"
 
